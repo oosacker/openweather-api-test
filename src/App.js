@@ -1,21 +1,25 @@
+
 import React, {useState, useEffect} from 'react';
 import { Container, Row, Col } from 'react-grid-system';
+
+require('dotenv').config();
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 function App () {
   const [weatherData, setWeather] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  let loaded = false;
+  // console.log(process.env.REACT_APP_API_KEY);
 
   useEffect(() => {
-    fetch("https://api.openweathermap.org/data/2.5/weather?q=wellington&appid=1dd2717b1abf4fe325703be72955b65d&units=metric")
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=wellington&units=metric&appid=${API_KEY}`)
       .then(res => res.json())
       .then(
         result => {
           setIsLoaded(true);
           setWeather(result);
           console.log(isLoaded);
-          loaded = true;
+
         },
         error => {
           setIsLoaded(false);
@@ -33,8 +37,6 @@ function App () {
   } 
   else {
     return (
-
-      
 
       <>
         <Container>
