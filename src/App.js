@@ -1,53 +1,61 @@
 import React, {useState, useEffect} from 'react';
 import { Container, Row, Col } from 'react-grid-system';
 
-const App = () => {
-  const [posts, setPost] = useState([]);
+function App () {
+  const [weatherData, setWeather] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  async function fetchData() {
-    const res = await fetch("https://api.openweathermap.org/data/2.5/weather?q=wellington&appid=1dd2717b1abf4fe325703be72955b65d&units=metric");
-
-    console.log(res);
-
-    res
-      .json()
-      .then(res => {
-        setPost(res);
-        console.log(res);
-      })
-      .catch(err => console.log(err));
-  }
+  let loaded = false;
 
   useEffect(() => {
-    console.log('useEffect');
-    fetchData();
+    fetch("https://api.openweathermap.org/data/2.5/weather?q=wellington&appid=1dd2717b1abf4fe325703be72955b65d&units=metric")
+      .then(res => res.json())
+      .then(
+        result => {
+          setIsLoaded(true);
+          setWeather(result);
+          console.log(isLoaded);
+          loaded = true;
+        },
+        error => {
+          setIsLoaded(false);
+          alert(error)
+        }
+      )
+  }, [])
 
-    // fetch('https://api.openweathermap.org/data/2.5/weather?q=wellington&appid=1dd2717b1abf4fe325703be72955b65d')
-    //   .then(res => res.text())
-    //   .then(text => console.log(text))  
-    //   // .then(res => setPost(res))
-    //   .catch(err => console.log(err))
 
-  }, []);
+  if (!isLoaded) {
+    console.log('Not loaded');
+    return (
+      <div>Loading...</div>
+    )
+  } 
+  else {
+    return (
 
-  return (
-    <div className="App">
-      {/* <ul>{
-          posts.map(post => 
-            <li key={post.id}>
-              {post.title}
-            </li>)
-        }</ul> */}
-      <Container>
+      
 
-        <Row>
-          {posts.name}
-        </Row>
+      <>
+        <Container>
+          <Row>
+            {/* {console.log(weatherData.weather[0])} */}
 
-      </Container>
+            {weatherData && (
+              <div>
+                <h3>{weatherData.name}</h3>
+                <p>Temperature: {weatherData.main.temp} degC</p>
+                <p>Feels like: {weatherData.main.feels_like} degC</p>
+                {/* {console.log(weatherData.weather[0].main)} */}
+                <p>{weatherData.weather[0].main}</p>
+              </div>
+            )}
 
-    </div>
-  );
+          </Row>
+        </Container>
+      </>
+    );
+  };
 };
 
 export default App;
