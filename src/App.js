@@ -32,9 +32,9 @@ function App () {
   // }, [])
 
   useEffect(() => {
-    console.log('useEffect')
-    setIsLoaded(false);
-    setError(false);
+    // console.log('useEffect')
+    // setIsLoaded(false);
+    // setError(false);
   })
 
   function getData() {
