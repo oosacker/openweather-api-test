@@ -1,6 +1,7 @@
 
 import React, {useState, useEffect} from 'react';
 import { Container, Row, Col } from 'react-grid-system';
+import './output.css';
 
 require('dotenv').config();
 const API_KEY = process.env.REACT_APP_API_KEY;
@@ -100,15 +101,9 @@ function App () {
           </Row>
 
           <Row>
-            <h3>{city.toUpperCase()}</h3>
-          </Row>
-
-          <Row>
-            {/* {console.log(weatherData.weather[0])} */}
-
             {weatherData && (
               <div>
-                {/* <h3>{weatherData.name}</h3> */}
+                <h3>{city.toUpperCase()}</h3>
                 <p>Temperature: {weatherData.main.temp} degC</p>
                 <p>Feels like: {weatherData.main.feels_like} degC</p>
                 <p>Humidity: {weatherData.main.humidity} %</p>
